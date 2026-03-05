@@ -1,29 +1,29 @@
-"use client"
+"use client";
 
-import { useState, useRef, useEffect } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import Confetti from "react-confetti"
-import { Gift, Heart } from "lucide-react"
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import Confetti from "react-confetti";
+import { Favorite, CardGiftcard } from "@mui/icons-material";
+import { Box, Typography, Button, Paper } from "@mui/material";
 
 export default function FinalSurpriseSlide() {
-    const [opened, setOpened] = useState(false)
-    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 })
-    const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 })
-    const [yesClicked, setYesClicked] = useState(false)
+    const [opened, setOpened] = useState(false);
+    const [windowSize, setWindowSize] = useState({ width: 0, height: 0 });
+    const [noButtonPos, setNoButtonPos] = useState({ x: 0, y: 0 });
+    const [yesClicked, setYesClicked] = useState(false);
 
     useEffect(() => {
-        setWindowSize({ width: window.innerWidth, height: window.innerHeight })
-    }, [])
+        setWindowSize({ width: window.innerWidth, height: window.innerHeight });
+    }, []);
 
     const handleNoHover = () => {
-        // Generate random coordinates within a range
-        const newX = (Math.random() - 0.5) * 300 // -150 to 150
-        const newY = (Math.random() - 0.5) * 300
-        setNoButtonPos({ x: newX, y: newY })
-    }
+        const newX = (Math.random() - 0.5) * 300; // -150 to 150
+        const newY = (Math.random() - 0.5) * 300;
+        setNoButtonPos({ x: newX, y: newY });
+    };
 
     return (
-        <div className="w-full h-full bg-gradient-to-b from-rose-50 to-pink-100 flex flex-col items-center justify-center relative overflow-hidden p-4">
+        <Box width="100%" height="100%" bgcolor="#fdf2f8" display="flex" flexDirection="column" alignItems="center" justifyContent="center" position="relative" overflow="hidden" p={2}>
 
             {opened && !yesClicked && (
                 <Confetti
@@ -32,7 +32,7 @@ export default function FinalSurpriseSlide() {
                     recycle={true}
                     numberOfPieces={200}
                     gravity={0.05}
-                    colors={['#f43f5e', '#ec4899', '#fdf2f8', '#fda4af', '#fff1f2']}
+                    colors={['#d81b60', '#f48fb1', '#f8bbd0', '#c2185b', '#fff1f2']}
                 />
             )}
 
@@ -43,21 +43,25 @@ export default function FinalSurpriseSlide() {
                     initial={{ y: windowSize.height, x: Math.random() * windowSize.width, opacity: 0, scale: Math.random() * 1.5 + 0.5 }}
                     animate={{ y: -100, opacity: [0, 1, 0] }}
                     transition={{ duration: Math.random() * 5 + 5, repeat: Infinity, delay: Math.random() * 5 }}
-                    className="absolute z-0 text-rose-300"
+                    style={{ position: 'absolute', zIndex: 0, color: 'rgba(244, 143, 177, 0.4)' }}
                 >
-                    <Heart size={32} fill="currentColor" />
+                    <Favorite sx={{ fontSize: 32 }} />
                 </motion.div>
             ))}
 
             <AnimatePresence mode="wait">
                 {!opened ? (
-                    <motion.div
+                    <Box
+                        component={motion.div}
                         key="gift-box"
                         initial={{ scale: 0.8, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         exit={{ scale: 1.5, opacity: 0, filter: "blur(10px)" }}
                         transition={{ duration: 0.5 }}
-                        className="flex flex-col items-center z-10"
+                        display="flex"
+                        flexDirection="column"
+                        alignItems="center"
+                        zIndex={10}
                     >
                         <motion.button
                             whileHover={{ scale: 1.05 }}
@@ -65,84 +69,100 @@ export default function FinalSurpriseSlide() {
                             animate={{ y: [0, -10, 0] }}
                             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
                             onClick={() => setOpened(true)}
-                            className="bg-white/80 backdrop-blur border border-rose-100 p-8 rounded-full shadow-[0_20px_50px_rgba(244,63,94,0.3)] mb-8 group"
+                            style={{
+                                background: 'rgba(255,255,255,0.8)', backdropFilter: 'blur(10px)',
+                                border: '1px solid #f8bbd0', padding: '2rem', borderRadius: '50%',
+                                boxShadow: '0 20px 50px rgba(216, 27, 96, 0.3)', marginBottom: '2rem', cursor: 'pointer'
+                            }}
                         >
-                            <Gift size={100} className="text-rose-500 group-hover:text-rose-600 transition-colors" />
+                            <CardGiftcard sx={{ fontSize: 100, color: 'primary.main' }} />
                         </motion.button>
-                        <h2 className="font-serif text-3xl md:text-5xl text-rose-600 tracking-wide">
-                            Open Your Surprise 🎁
-                        </h2>
-                    </motion.div>
+                        <Typography variant="h2" color="primary.main">
+                            Открой свой сюрприз 🎁
+                        </Typography>
+                    </Box>
                 ) : !yesClicked ? (
-                    <motion.div
+                    <Box
+                        component={motion.div}
                         key="surprise-msg"
                         initial={{ opacity: 0, y: 50 }}
                         animate={{ opacity: 1, y: 0 }}
                         transition={{ duration: 1, delay: 0.5 }}
-                        className="flex flex-col items-center text-center z-20 max-w-2xl px-6 bg-white/60 backdrop-blur-md py-12 rounded-3xl border border-white/50 shadow-2xl"
+                        display="flex" flexDirection="column" alignItems="center" textAlign="center" zIndex={20} maxWidth={700}
                     >
-                        <h1 className="font-serif text-5xl md:text-6xl text-rose-600 mb-6 tracking-wide leading-tight">
-                            Happy 8 March <br /><span className="italic">Nafisa 🌸</span>
-                        </h1>
+                        <Paper elevation={24} sx={{ p: { xs: 4, md: 8 }, borderRadius: 8, bgcolor: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', border: '1px solid white' }}>
+                            <Typography variant="h1" color="primary.main" gutterBottom sx={{ fontSize: { xs: '3rem', md: '5rem' }, lineHeight: 1.1 }}>
+                                С 8 Марта <br /><span style={{ fontStyle: 'italic', fontWeight: 600 }}>Нафиса 🌸</span>
+                            </Typography>
 
-                        <p className="text-gray-700 font-sans text-lg md:text-xl leading-relaxed mb-6">
-                            You are the most amazing woman in my life.<br />
-                            Thank you for every moment, every smile, and every memory.<br />
-                            I can't wait for our future together.
-                        </p>
+                            <Typography variant="h6" color="text.secondary" sx={{ mt: 3, mb: 1, fontFamily: 'var(--font-montserrat)', fontWeight: 400, lineHeight: 1.6 }}>
+                                Ты самая удивительная девушка в моей жизни.<br />
+                                Спасибо тебе за каждый момент, каждую улыбку и каждое воспоминание.<br />
+                                Я не могу дождаться нашего совместного будущего.
+                            </Typography>
 
-                        <p className="text-xl md:text-2xl font-serif text-rose-500 font-medium mb-12">
-                            I love you ❤️
-                        </p>
+                            <Typography variant="h4" color="primary.light" sx={{ mt: 2, mb: 4, fontWeight: 700, fontStyle: 'italic' }}>
+                                Я люблю тебя ❤️
+                            </Typography>
 
-                        <div className="w-full h-px bg-gradient-to-r from-transparent via-rose-200 to-transparent my-8" />
+                            <Box width="100%" height={1} sx={{ background: 'linear-gradient(90deg, transparent, #f48fb1, transparent)', my: 4 }} />
 
-                        <h3 className="text-2xl font-sans font-medium text-gray-800 mb-8">
-                            Will You Always Stay With Me?
-                        </h3>
+                            <Typography variant="h4" color="text.primary" sx={{ mb: 4 }}>
+                                Ты останешься со мной навсегда?
+                            </Typography>
 
-                        <div className="flex gap-6 items-center justify-center relative w-full h-20">
-                            <motion.button
-                                whileHover={{ scale: 1.1 }}
-                                whileTap={{ scale: 0.95 }}
-                                onClick={() => setYesClicked(true)}
-                                className="px-8 py-4 bg-gradient-to-r from-rose-400 to-pink-500 text-white font-bold rounded-full shadow-lg text-lg z-30 ring-4 ring-rose-100"
-                            >
-                                YES ❤️
-                            </motion.button>
+                            <Box display="flex" gap={3} alignItems="center" justifyContent="center" position="relative" height={80} width="100%">
+                                <motion.div whileHover={{ scale: 1.1 }} whileTap={{ scale: 0.95 }} style={{ zIndex: 30 }}>
+                                    <Button
+                                        variant="contained"
+                                        color="primary"
+                                        onClick={() => setYesClicked(true)}
+                                        sx={{ px: 6, py: 2, borderRadius: 8, fontSize: '1.2rem', boxShadow: '0 8px 20px rgba(216, 27, 96, 0.4)' }}
+                                    >
+                                        ДА ❤️
+                                    </Button>
+                                </motion.div>
 
-                            <motion.button
-                                animate={{ x: noButtonPos.x, y: noButtonPos.y }}
-                                transition={{ type: "spring", stiffness: 200, damping: 10 }}
-                                onMouseEnter={handleNoHover}
-                                onClick={handleNoHover}
-                                className="absolute right-0 md:relative px-8 py-4 bg-gray-200 text-gray-500 font-bold rounded-full shadow-sm text-lg z-30"
-                                style={{ marginLeft: noButtonPos.x === 0 ? "1rem" : 0 }}
-                            >
-                                NO 💔
-                            </motion.button>
-                        </div>
-                    </motion.div>
+                                <motion.div
+                                    animate={{ x: noButtonPos.x, y: noButtonPos.y }}
+                                    transition={{ type: "spring", stiffness: 200, damping: 10 }}
+                                    onMouseEnter={handleNoHover}
+                                    onClick={handleNoHover}
+                                    style={{ position: 'absolute', right: 0, zIndex: 30, marginLeft: noButtonPos.x === 0 ? '60%' : 0 }}
+                                >
+                                    <Button
+                                        variant="contained"
+                                        sx={{ bgcolor: '#e0e0e0', color: '#757575', px: 6, py: 2, borderRadius: 8, fontSize: '1.2rem', '&:hover': { bgcolor: '#e0e0e0' } }}
+                                    >
+                                        НЕТ 💔
+                                    </Button>
+                                </motion.div>
+                            </Box>
+                        </Paper>
+                    </Box>
                 ) : (
-                    <motion.div
+                    <Box
+                        component={motion.div}
                         key="final-yes"
                         initial={{ scale: 0, opacity: 0 }}
                         animate={{ scale: 1, opacity: 1 }}
                         transition={{ type: "spring", bounce: 0.5 }}
-                        className="flex flex-col items-center text-center z-30"
+                        display="flex" flexDirection="column" alignItems="center" textAlign="center" zIndex={30}
                     >
-                        <div className="bg-white p-10 rounded-full shadow-2xl mb-8 flex items-center justify-center">
-                            <Heart size={120} className="text-rose-500 fill-rose-500 animate-pulse" />
-                        </div>
-                        <h1 className="font-serif text-5xl md:text-7xl text-rose-600 tracking-wide drop-shadow-sm">
-                            I KNEW IT! 🥰
-                        </h1>
-                        <p className="text-rose-400 font-sans text-xl mt-6 tracking-widest uppercase font-medium">
-                            Forever & Always
-                        </p>
-                    </motion.div>
+                        <Paper elevation={16} sx={{ p: 6, borderRadius: '50%', mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                            <Favorite sx={{ fontSize: 120, color: 'primary.main', animation: 'pulse 1.5s infinite' }} />
+                        </Paper>
+
+                        <Typography variant="h1" color="primary.main" sx={{ textShadow: '0 4px 10px rgba(216, 27, 96, 0.2)', fontSize: { xs: '4rem', md: '6rem' } }}>
+                            Я ТАК И ЗНАЛ! 🥰
+                        </Typography>
+
+                        <Typography variant="overline" color="primary.light" sx={{ fontSize: '1.5rem', mt: 2, letterSpacing: 4, fontWeight: 700 }}>
+                            Навсегда и Навечно
+                        </Typography>
+                    </Box>
                 )}
             </AnimatePresence>
-        </div>
-    )
+        </Box>
+    );
 }

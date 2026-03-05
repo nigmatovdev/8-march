@@ -1,20 +1,23 @@
 import type { Metadata } from "next"
-import { Inter, Playfair_Display } from "next/font/google"
+import { Cormorant_Garamond, Montserrat } from "next/font/google"
+import { ThemeRegistry } from "./ThemeRegistry"
 import "./globals.css"
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
+const cormorant = Cormorant_Garamond({
+  weight: ['400', '500', '600', '700'],
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-cormorant",
 })
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
-  subsets: ["latin"],
+const montserrat = Montserrat({
+  weight: ['300', '400', '500', '600'],
+  subsets: ["cyrillic", "latin"],
+  variable: "--font-montserrat",
 })
 
 export const metadata: Metadata = {
-  title: "Happy 8 March Nafisa",
-  description: "A digital love story designed for Nafisa",
+  title: "С 8 Марта, Нафиса 🌸",
+  description: "Цифровая история любви для Нафисы",
 }
 
 export default function RootLayout({
@@ -23,9 +26,11 @@ export default function RootLayout({
   children: React.ReactNode
 }>) {
   return (
-    <html lang="en">
-      <body suppressHydrationWarning className={`${inter.variable} ${playfair.variable} antialiased font-sans text-gray-800`}>
-        {children}
+    <html lang="ru">
+      <body suppressHydrationWarning className={`${cormorant.variable} ${montserrat.variable} antialiased font-sans text-gray-800`}>
+        <ThemeRegistry>
+          {children}
+        </ThemeRegistry>
       </body>
     </html>
   )

@@ -2,13 +2,10 @@
 
 import { useState, useEffect, useRef } from "react"
 import { AnimatePresence, motion } from "framer-motion"
-import { Music, VolumeX } from "lucide-react"
 import IntroSlide from "./components/IntroSlide"
-import StorySlide from "./components/StorySlide"
 import GuessMemorySlide from "./components/GuessMemorySlide"
 import CounterSlide from "./components/CounterSlide"
 import CatchHeartSlide from "./components/CatchHeartSlide"
-import RandomMemorySlide from "./components/RandomMemorySlide"
 import HiddenNotesSlide from "./components/HiddenNotesSlide"
 import MapSlide from "./components/MapSlide"
 import ChatSlide from "./components/ChatSlide"
@@ -23,15 +20,30 @@ const PlaceholderSlide = ({ index }: { index: number }) => (
 export default function Home() {
   const [currentSlide, setCurrentSlide] = useState(0)
   const [hasUnlocked, setHasUnlocked] = useState(false)
-  const [isMusicPlaying, setIsMusicPlaying] = useState(false)
-  const totalSlides = 10
+  const totalSlides = 8 // Reduced from 9
+  const [completedSlides, setCompletedSlides] = useState<number[]>([])
 
   const touchStartY = useRef(0)
   const isScrolling = useRef(false)
-  const audioRef = useRef<HTMLAudioElement | null>(null)
+
+  const markCompleted = (index: number) => {
+    setCompletedSlides(prev => prev.includes(index) ? prev : [...prev, index])
+  }
+
+  const canGoNext = () => {
+    if (currentSlide === 0) return hasUnlocked;
+    const slidesThatRequireCompletion = [1, 3, 4, 6]; // GuessMemory, CatchHeart, HiddenNotes, Chat
+
+    // If the slide requires interaction, it must be completed before going next
+    if (slidesThatRequireCompletion.includes(currentSlide)) {
+      return completedSlides.includes(currentSlide);
+    }
+
+    return true; // Non-interactive slides can be skipped anytime
+  }
 
   const goToNext = () => {
-    if (!hasUnlocked && currentSlide === 0) return
+    if (!canGoNext()) return
     setCurrentSlide((prev) => Math.min(prev + 1, totalSlides - 1))
   }
 
@@ -78,29 +90,16 @@ export default function Home() {
     }
   }, [currentSlide, hasUnlocked])
 
-  const handleToggleMusic = () => {
-    if (audioRef.current) {
-      if (isMusicPlaying) {
-        audioRef.current.pause()
-      } else {
-        audioRef.current.play().catch(e => console.warn("Audio play blocked by browser:", e))
-      }
-    }
-    setIsMusicPlaying(!isMusicPlaying)
-  }
-
   const renderSlide = () => {
     switch (currentSlide) {
       case 0: return <IntroSlide onUnlock={() => { setHasUnlocked(true); goToNext() }} />
-      case 1: return <StorySlide />
-      case 2: return <GuessMemorySlide />
-      case 3: return <CounterSlide />
-      case 4: return <CatchHeartSlide />
-      case 5: return <RandomMemorySlide />
-      case 6: return <HiddenNotesSlide />
-      case 7: return <MapSlide />
-      case 8: return <ChatSlide />
-      case 9: return <FinalSurpriseSlide />
+      case 1: return <GuessMemorySlide onComplete={() => markCompleted(1)} onNext={goToNext} />
+      case 2: return <CounterSlide onNext={goToNext} />
+      case 3: return <CatchHeartSlide onComplete={() => markCompleted(3)} onNext={goToNext} />
+      case 4: return <HiddenNotesSlide onComplete={() => markCompleted(4)} onNext={goToNext} />
+      case 5: return <MapSlide onNext={goToNext} />
+      case 6: return <ChatSlide onComplete={() => markCompleted(6)} onNext={goToNext} />
+      case 7: return <FinalSurpriseSlide />
       default: return <PlaceholderSlide index={currentSlide} />
     }
   }
@@ -120,16 +119,6 @@ export default function Home() {
         </motion.div>
       </AnimatePresence>
 
-      {/* Floating Music Toggle */}
-      <button
-        onClick={handleToggleMusic}
-        className="absolute top-6 right-6 p-3 bg-white/40 backdrop-blur-md rounded-full shadow-sm text-pink-600 z-50 hover:bg-white/60 transition-colors"
-        aria-label="Toggle Music"
-        tabIndex={0}
-      >
-        {isMusicPlaying ? <Music size={24} /> : <VolumeX size={24} />}
-      </button>
-
       {/* Slide Indicators */}
       {hasUnlocked && (
         <div className="absolute left-6 top-1/2 -translate-y-1/2 flex flex-col gap-3 z-50 hidden md:flex">
@@ -142,12 +131,6 @@ export default function Home() {
         </div>
       )}
 
-      {/* Background Audio */}
-      <audio
-        ref={audioRef}
-        src="/romantic-piano.mp3"
-        loop
-      />
     </main>
   )
 }

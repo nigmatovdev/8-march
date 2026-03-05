@@ -1,139 +1,159 @@
-"use client"
+"use client";
 
-import { useState, useEffect, useRef } from "react"
-import { motion, AnimatePresence } from "framer-motion"
-import { Heart } from "lucide-react"
+import { useState, useEffect, useRef } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { Favorite } from "@mui/icons-material";
+import { Box, Typography, LinearProgress, Paper, Button } from "@mui/material";
 
 type FallingHeart = {
-    id: number
-    x: number // percentage 0-100
-    y: number // percentage 0-100
-    speed: number
-}
+    id: number;
+    x: number; // percentage 0-100
+    y: number; // percentage 0-100
+    speed: number;
+};
 
-export default function CatchHeartSlide() {
-    const [score, setScore] = useState(0)
-    const [hearts, setHearts] = useState<FallingHeart[]>([])
-    const [isWon, setIsWon] = useState(false)
-    const [basketX, setBasketX] = useState(50) // percentage 0-100
+export default function CatchHeartSlide({ onComplete, onNext }: { onComplete?: () => void, onNext?: () => void }) {
+    const [score, setScore] = useState(0);
+    const [hearts, setHearts] = useState<FallingHeart[]>([]);
+    const [isWon, setIsWon] = useState(false);
+    const [basketX, setBasketX] = useState(50); // percentage 0-100
 
-    const containerRef = useRef<HTMLDivElement>(null)
-    const requestRef = useRef<number>(0)
-    const heartIdCounter = useRef(0)
+    useEffect(() => {
+        if (isWon) onComplete?.();
+    }, [isWon, onComplete]);
+
+    const containerRef = useRef<HTMLDivElement>(null);
+    const requestRef = useRef<number>(0);
+    const heartIdCounter = useRef(0);
 
     // Spawner
     useEffect(() => {
-        if (isWon) return
+        if (isWon) return;
         const spawnTimer = setInterval(() => {
             setHearts(prev => {
-                if (prev.length > 5) return prev // Max 5 at a time
+                if (prev.length > 5) return prev; // Max 5 at a time
                 return [
                     ...prev,
                     {
                         id: ++heartIdCounter.current,
                         x: Math.random() * 80 + 10, // 10% to 90%
                         y: -10,
-                        speed: Math.random() * 0.5 + 0.3 // speed factor
+                        speed: Math.random() * 0.15 + 0.1 // slower speed factor
                     }
-                ]
-            })
-        }, 1000)
-        return () => clearInterval(spawnTimer)
-    }, [isWon])
+                ];
+            });
+        }, 1800); // 1.8s spawn timer
+        return () => clearInterval(spawnTimer);
+    }, [isWon]);
 
     // Game Loop
     useEffect(() => {
-        if (isWon) return
+        if (isWon) return;
 
         const updateGame = () => {
             setHearts(prev => {
-                let newHearts = [...prev]
+                let newHearts = [...prev];
 
                 for (let i = newHearts.length - 1; i >= 0; i--) {
-                    const h = newHearts[i]
-                    h.y += h.speed
+                    const h = newHearts[i];
+                    h.y += h.speed;
 
                     // Check collision
                     // Basket is at y ~ 85%, width ~ 20%
-                    const inCatchZone = h.y > 80 && h.y < 95
-                    const inHorizontalBounds = Math.abs(h.x - basketX) < 15
+                    const inCatchZone = h.y > 80 && h.y < 95;
+                    const inHorizontalBounds = Math.abs(h.x - basketX) < 15;
 
                     if (inCatchZone && inHorizontalBounds) {
                         setScore(s => {
-                            const newScore = s + 1
-                            if (newScore >= 10) setIsWon(true)
-                            return newScore
-                        })
-                        newHearts.splice(i, 1) // caught
-                        continue
+                            const newScore = s + 1;
+                            if (newScore >= 10) setIsWon(true);
+                            return newScore;
+                        });
+                        newHearts.splice(i, 1); // caught
+                        continue;
                     }
 
                     if (h.y > 110) {
-                        newHearts.splice(i, 1) // missed
+                        newHearts.splice(i, 1); // missed
                     }
                 }
-                return newHearts
-            })
-            requestRef.current = requestAnimationFrame(updateGame)
-        }
+                return newHearts;
+            });
+            requestRef.current = requestAnimationFrame(updateGame);
+        };
 
-        requestRef.current = requestAnimationFrame(updateGame)
-        return () => cancelAnimationFrame(requestRef.current)
-    }, [basketX, isWon])
+        requestRef.current = requestAnimationFrame(updateGame);
+        return () => cancelAnimationFrame(requestRef.current);
+    }, [basketX, isWon]);
 
     // Mouse / Touch movement tracking
     const handleMove = (clientX: number) => {
-        if (!containerRef.current || isWon) return
-        const rect = containerRef.current.getBoundingClientRect()
-        const x = ((clientX - rect.left) / rect.width) * 100
-        setBasketX(Math.max(5, Math.min(95, x)))
-    }
+        if (!containerRef.current || isWon) return;
+        const rect = containerRef.current.getBoundingClientRect();
+        const x = ((clientX - rect.left) / rect.width) * 100;
+        setBasketX(Math.max(5, Math.min(95, x)));
+    };
 
     return (
-        <div
+        <Box
             ref={containerRef}
-            className="w-full h-full bg-gradient-to-b from-blue-50 to-pink-100 relative overflow-hidden"
+            width="100%"
+            height="100%"
+            position="relative"
+            overflow="hidden"
             onMouseMove={(e) => handleMove(e.clientX)}
             onTouchMove={(e) => handleMove(e.touches[0].clientX)}
+            sx={{ userSelect: 'none' }}
         >
             {/* HUD */}
-            <div className="absolute top-10 left-0 right-0 z-20 flex flex-col items-center">
-                <h2 className="font-serif text-3xl md:text-4xl text-rose-600 tracking-wide mb-2 drop-shadow-sm">
-                    Catch My Heart
-                </h2>
+            <Box position="absolute" top={40} left={0} right={0} zIndex={20} display="flex" flexDirection="column" alignItems="center">
+                <Typography variant="h2" color="primary.main" sx={{ mb: 2, textShadow: '0 2px 10px rgba(255,255,255,0.8)' }}>
+                    Поймай Мое Сердце
+                </Typography>
 
                 {/* Progress Bar */}
-                <div className="w-64 h-4 bg-white/50 rounded-full overflow-hidden border border-rose-200">
-                    <motion.div
-                        className="h-full bg-gradient-to-r from-pink-400 to-rose-500"
-                        animate={{ width: `${(score / 10) * 100}%` }}
-                        transition={{ type: "spring", bounce: 0 }}
+                <Box width={250} mt={1}>
+                    <LinearProgress
+                        variant="determinate"
+                        value={(score / 10) * 100}
+                        sx={{ height: 12, borderRadius: 6, bgcolor: 'rgba(255,255,255,0.5)', '& .MuiLinearProgress-bar': { bgcolor: 'primary.main', borderRadius: 6 } }}
                     />
-                </div>
-                <p className="text-rose-500 font-sans mt-2 font-medium">
+                </Box>
+                <Typography variant="button" color="primary.main" sx={{ mt: 1, fontWeight: 'bold' }}>
                     {score} / 10
-                </p>
-            </div>
+                </Typography>
+            </Box>
 
             {/* Falling Hearts */}
             {!isWon && hearts.map(h => (
-                <div
+                <Box
                     key={h.id}
-                    className="absolute"
-                    style={{ left: `${h.x}%`, top: `${h.y}%`, transform: 'translate(-50%, -50%)' }}
+                    position="absolute"
+                    sx={{ left: `${h.x}%`, top: `${h.y}%`, transform: 'translate(-50%, -50%)', animation: 'pulse 1s infinite' }}
                 >
-                    <Heart size={36} fill="#ec4899" className="text-pink-600 drop-shadow-md border-white/50 animate-pulse" />
-                </div>
+                    <Favorite sx={{ fontSize: 72, color: 'primary.light', filter: 'drop-shadow(0px 4px 6px rgba(244, 143, 177, 0.8))' }} />
+                </Box>
             ))}
 
             {/* Basket */}
             {!isWon && (
-                <div
-                    className="absolute bottom-[10%] w-24 h-24 md:w-32 md:h-32 transition-transform ease-out duration-75 text-5xl md:text-6xl flex justify-center items-end select-none pointer-events-none drop-shadow-xl"
-                    style={{ left: `${basketX}%`, transform: 'translateX(-50%)' }}
+                <Box
+                    position="absolute"
+                    bottom="10%"
+                    display="flex"
+                    justifyContent="center"
+                    alignItems="flex-end"
+                    sx={{
+                        left: `${basketX}%`,
+                        transform: 'translateX(-50%)',
+                        fontSize: { xs: '3rem', md: '4rem' },
+                        transition: 'transform 0.05s ease-out',
+                        pointerEvents: 'none',
+                        filter: 'drop-shadow(0 10px 15px rgba(0,0,0,0.2))'
+                    }}
                 >
                     🧺
-                </div>
+                </Box>
             )}
 
             {/* Winning Screen */}
@@ -142,26 +162,28 @@ export default function CatchHeartSlide() {
                     <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         animate={{ opacity: 1, scale: 1 }}
-                        className="absolute inset-0 bg-pink-100/90 backdrop-blur-sm z-30 flex flex-col items-center justify-center p-6 text-center"
+                        style={{
+                            position: 'absolute', inset: 0, zIndex: 30, display: 'flex',
+                            flexDirection: 'column', alignItems: 'center', justifyContent: 'center',
+                            backgroundColor: 'rgba(253, 242, 248, 0.9)', backdropFilter: 'blur(8px)'
+                        }}
                     >
-                        <motion.div
-                            animate={{ scale: [1, 1.2, 1] }}
-                            transition={{ repeat: Infinity, duration: 1.5 }}
-                            className="mb-6 bg-white p-6 rounded-full shadow-xl"
-                        >
-                            <Heart size={64} fill="#e11d48" className="text-rose-600" />
+                        <motion.div animate={{ scale: [1, 1.2, 1] }} transition={{ repeat: Infinity, duration: 1.5 }}>
+                            <Paper elevation={12} sx={{ p: 4, borderRadius: '50%', mb: 4, display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+                                <Favorite sx={{ fontSize: 80, color: 'primary.main' }} />
+                            </Paper>
                         </motion.div>
 
-                        <h3 className="font-serif text-4xl md:text-5xl text-rose-600 mb-4 tracking-wide font-medium">
-                            You caught my heart ❤️
-                        </h3>
+                        <Typography variant="h2" color="primary.main" textAlign="center" gutterBottom>
+                            Ты поймала мое сердце ❤️
+                        </Typography>
 
-                        <p className="text-rose-500 font-sans text-lg tracking-widest uppercase mt-8 animate-bounce">
-                            Scroll down to continue
-                        </p>
+                        <Button variant="contained" color="primary" onClick={onNext} sx={{ mt: 4, borderRadius: 8, px: 6, py: 1.5, fontSize: '1.2rem', boxShadow: '0 8px 20px rgba(216, 27, 96, 0.4)' }}>
+                            Дальше
+                        </Button>
                     </motion.div>
                 )}
             </AnimatePresence>
-        </div>
-    )
+        </Box>
+    );
 }
