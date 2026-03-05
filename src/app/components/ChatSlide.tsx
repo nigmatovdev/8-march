@@ -54,9 +54,9 @@ export default function ChatSlide({ onComplete, onNext }: { onComplete?: () => v
 
             {/* iPhone Frame */}
             <Box
-                width="100%" maxWidth={380} height="100%" maxHeight={820}
-                bgcolor="white" borderRadius={12} boxShadow="0 20px 50px rgba(216, 27, 96, 0.15)"
-                border="8px solid #fff" position="relative" overflow="hidden" display="flex" flexDirection="column"
+                width="100%" maxWidth={{ xs: '100vw', sm: 380 }} height="100%" maxHeight={{ xs: '100vh', sm: 820 }}
+                bgcolor="white" borderRadius={{ xs: 0, sm: 12 }} boxShadow="0 20px 50px rgba(216, 27, 96, 0.15)"
+                border={{ xs: 'none', sm: '8px solid #fff' }} position="relative" overflow="hidden" display="flex" flexDirection="column"
             >
 
                 {/* Notch Area */}
@@ -77,20 +77,20 @@ export default function ChatSlide({ onComplete, onNext }: { onComplete?: () => v
                 </Box>
 
                 {/* Chat Header */}
-                <Box display="flex" alignItems="center" gap={1.5} px={2} py={1.5} bgcolor="#f8f9fa" borderBottom="1px solid #eee" zIndex={10} pt={6}>
-                    <IconButton color="primary" size="small">
+                <Box display="flex" alignItems="center" gap={{ xs: 1, sm: 1.5 }} px={2} py={1.5} bgcolor="#f8f9fa" borderBottom="1px solid #eee" zIndex={10} pt={6}>
+                    <IconButton color="primary" size="small" sx={{ p: { xs: 0.5, sm: 1 } }}>
                         <ArrowBackIosNew fontSize="small" />
                     </IconButton>
                     <Box position="relative">
-                        <Avatar src="/ava.jpg" alt="Нафиса" sx={{ width: 40, height: 40 }} />
+                        <Avatar src="/ava.jpg" alt="Нафиса" sx={{ width: { xs: 32, sm: 40 }, height: { xs: 32, sm: 40 } }} />
                         {/* Online Dot */}
-                        <Box position="absolute" bottom={0} right={0} width={12} height={12} bgcolor="#4caf50" borderRadius="50%" border="2px solid white" />
+                        <Box position="absolute" bottom={0} right={0} width={{ xs: 10, sm: 12 }} height={{ xs: 10, sm: 12 }} bgcolor="#4caf50" borderRadius="50%" border="2px solid white" />
                     </Box>
                     <Box display="flex" flexDirection="column">
-                        <Typography variant="subtitle2" fontWeight="bold" color="text.primary" lineHeight={1.2}>
+                        <Typography variant="subtitle2" fontWeight="bold" color="text.primary" lineHeight={1.2} sx={{ fontSize: { xs: '0.8rem', sm: '0.875rem' } }}>
                             nafisa musulmonova
                         </Typography>
-                        <Typography variant="caption" color="text.secondary">
+                        <Typography variant="caption" color="text.secondary" sx={{ fontSize: { xs: '0.65rem', sm: '0.75rem' } }}>
                             В сети
                         </Typography>
                     </Box>
@@ -122,18 +122,18 @@ export default function ChatSlide({ onComplete, onNext }: { onComplete?: () => v
                                     style={{ display: 'flex', width: '100%', justifyContent: isMe ? "flex-end" : "flex-start" }}
                                 >
                                     <Box
-                                        maxWidth="75%" px={2} py={1.2}
+                                        maxWidth="85%" px={1.5} py={1}
                                         sx={{
                                             bgcolor: isMe ? 'primary.main' : 'white',
                                             color: isMe ? 'white' : 'text.primary',
-                                            borderRadius: 3,
+                                            borderRadius: 2.5,
                                             borderTopRightRadius: isMe ? 4 : 12,
                                             borderTopLeftRadius: !isMe ? 4 : 12,
                                             boxShadow: '0 1px 2px rgba(0,0,0,0.05)',
                                             border: !isMe ? '1px solid #eee' : 'none'
                                         }}
                                     >
-                                        <Typography variant="body2" sx={{ fontSize: '0.95rem', lineHeight: 1.4 }}>
+                                        <Typography variant="body2" sx={{ fontSize: { xs: '0.85rem', sm: '0.95rem' }, lineHeight: 1.4 }}>
                                             {msg.text}
                                         </Typography>
                                     </Box>

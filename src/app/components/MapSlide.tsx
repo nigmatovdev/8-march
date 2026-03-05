@@ -64,12 +64,12 @@ export default function MapSlide({ onNext }: { onNext?: () => void }) {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                style={{ textAlign: 'center', paddingTop: '4rem', zIndex: 10, position: 'relative', pointerEvents: 'none' }}
+                style={{ textAlign: 'center', paddingTop: '2rem', paddingLeft: '1rem', paddingRight: '1rem', zIndex: 10, position: 'relative', pointerEvents: 'none' }}
             >
-                <Typography variant="h2" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2.5rem', md: '3.75rem' } }}>
+                <Typography variant="h2" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2.2rem', sm: '2.5rem', md: '3.75rem' } }}>
                     Наши Особенные Места
                 </Typography>
-                <Typography variant="subtitle1" color="primary.light" sx={{ letterSpacing: 1 }}>
+                <Typography variant="subtitle1" color="primary.light" sx={{ letterSpacing: { xs: 0, md: 1 }, fontSize: { xs: '0.9rem', md: '1rem' } }}>
                     Нажмите на точки на карте
                 </Typography>
             </motion.div>
@@ -167,15 +167,15 @@ export default function MapSlide({ onNext }: { onNext?: () => void }) {
                                     <Box position="absolute" bottom={0} left={0} right={0} height="50%" sx={{ background: 'linear-gradient(to top, rgba(0,0,0,0.6), transparent)' }} />
                                 </Box>
 
-                                <Box p={4} bgcolor="white" position="relative">
-                                    <Box position="absolute" top={-28} right={24} bgcolor="primary.main" p={1.5} borderRadius="50%" color="white" boxShadow="0 8px 16px rgba(216, 27, 96, 0.3)">
-                                        <Room sx={{ fontSize: 32 }} />
+                                <Box p={{ xs: 2.5, md: 4 }} bgcolor="white" position="relative">
+                                    <Box position="absolute" top={-24} right={16} bgcolor="primary.main" p={1.2} borderRadius="50%" color="white" boxShadow="0 8px 16px rgba(216, 27, 96, 0.3)">
+                                        <Room sx={{ fontSize: { xs: 24, md: 32 } }} />
                                     </Box>
 
-                                    <Typography variant="h3" color="text.primary" gutterBottom sx={{ fontSize: { xs: '1.8rem', md: '3rem' } }}>
+                                    <Typography variant="h3" color="text.primary" gutterBottom sx={{ fontSize: { xs: '1.5rem', sm: '1.8rem', md: '3rem' }, mt: 1 }}>
                                         {activeLocation.title}
                                     </Typography>
-                                    <Typography variant="body1" color="text.secondary" paragraph sx={{ lineHeight: 1.6 }}>
+                                    <Typography variant="body1" color="text.secondary" paragraph sx={{ lineHeight: 1.6, fontSize: { xs: '0.9rem', md: '1rem' } }}>
                                         {activeLocation.desc}
                                     </Typography>
 

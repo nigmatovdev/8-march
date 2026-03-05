@@ -48,10 +48,10 @@ function Card({
         <motion.div
             style={{
                 position: "absolute",
-                width: '80vw',
-                maxWidth: 300,
-                height: '60vh',
-                maxHeight: 420,
+                width: '75vw',
+                maxWidth: 280,
+                height: '55vh',
+                maxHeight: 400,
                 x,
                 y: yOffset,
                 rotate: isActive ? rotation : tilt,
@@ -83,8 +83,8 @@ function Card({
                     <img src={memory.img} alt={memory.caption} style={{ width: '100%', height: '100%', objectFit: 'cover', pointerEvents: 'none' }} />
                     <Box position="absolute" bottom={0} left={0} right={0} height="50%" sx={{ background: 'linear-gradient(to top, rgba(0,0,0,0.4), transparent)' }} />
                 </Box>
-                <Box p={3} textAlign="center">
-                    <Typography variant="h6" color="primary.dark" sx={{ fontStyle: 'italic' }}>
+                <Box p={{ xs: 1.5, md: 3 }} textAlign="center" display="flex" alignItems="center" justifyContent="center" height="100%" maxHeight={{ xs: 60, md: 80 }}>
+                    <Typography variant="h6" color="primary.dark" sx={{ fontStyle: 'italic', fontSize: { xs: '0.85rem', sm: '1.25rem' }, lineHeight: 1.2 }}>
                         {memory.caption}
                     </Typography>
                 </Box>
@@ -111,11 +111,11 @@ export default function GuessMemorySlide({ onComplete, onNext }: { onComplete?: 
     return (
         <Box width="100%" height="100%" display="flex" flexDirection="column" alignItems="center" bgcolor="#fdf2f8" p={3} overflow="hidden">
 
-            <Box textAlign="center" mt={{ xs: 8, md: 10 }} zIndex={10}>
-                <Typography variant="h2" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2.5rem', md: '3.75rem' } }}>
+            <Box textAlign="center" mt={{ xs: 4, sm: 8, md: 10 }} zIndex={10}>
+                <Typography variant="h2" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3.75rem' }, mb: { xs: 1, md: 2 } }}>
                     Наши Воспоминания
                 </Typography>
-                <Typography variant="subtitle1" color="primary.light" sx={{ letterSpacing: 1 }}>
+                <Typography variant="subtitle1" color="primary.light" sx={{ letterSpacing: { xs: 0, md: 1 }, fontSize: { xs: '0.85rem', md: '1rem' }, px: 2 }}>
                     Смахивайте фото как карты, чтобы листать букет 💐
                 </Typography>
             </Box>

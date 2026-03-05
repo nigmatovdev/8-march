@@ -83,11 +83,11 @@ export default function IntroSlide({ onUnlock }: { onUnlock: () => void }) {
             width="100%"
             sx={{ userSelect: 'none' }}
         >
-            <Box textAlign="center" mb={6} component={motion.div} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 } as any}>
-                <Typography variant="h1" color="primary.main" gutterBottom sx={{ letterSpacing: 2, fontSize: { xs: '3rem', md: '4rem' } }}>
+            <Box textAlign="center" mb={{ xs: 3, md: 6 }} component={motion.div} initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 1 } as any}>
+                <Typography variant="h1" color="primary.main" gutterBottom sx={{ letterSpacing: 2, fontSize: { xs: '2.5rem', sm: '3rem', md: '4rem' } }}>
                     Дорогая
                 </Typography>
-                <Typography variant="subtitle1" color="primary.light" sx={{ textTransform: 'uppercase', letterSpacing: 4, fontWeight: 300 }}>
+                <Typography variant="subtitle1" color="primary.light" sx={{ textTransform: 'uppercase', letterSpacing: { xs: 2, sm: 4 }, fontWeight: 300, fontSize: { xs: '0.9rem', md: '1rem' } }}>
                     С 8 Марта тебя 🌸
                 </Typography>
             </Box>
@@ -159,7 +159,7 @@ export default function IntroSlide({ onUnlock }: { onUnlock: () => void }) {
                     <Typography
                         variant="body2"
                         color="primary.main"
-                        sx={{ mt: 5, textTransform: 'uppercase', letterSpacing: 3, fontWeight: 500, textAlign: 'center', height: 24 }}
+                        sx={{ mt: { xs: 3, md: 5 }, textTransform: 'uppercase', letterSpacing: { xs: 1, md: 3 }, fontWeight: 500, textAlign: 'center', height: 24, fontSize: { xs: '0.75rem', md: '0.875rem' }, px: 2 }}
                     >
                         {countdown !== null ? "" : isHolding ? "Наполняется любовью ❤️" : "Удерживайте, чтобы начать нашу историю"}
                     </Typography>

@@ -85,12 +85,12 @@ export default function CounterSlide({ onNext }: { onNext?: () => void }) {
             <motion.div
                 initial={{ opacity: 0, y: -20 }}
                 animate={{ opacity: 1, y: 0 }}
-                style={{ textAlign: 'center', marginBottom: '3rem', zIndex: 10, width: '100%' }}
+                style={{ textAlign: 'center', marginBottom: '2rem', zIndex: 10, width: '100%', padding: '0 1rem' }}
             >
-                <Typography variant="h2" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2.5rem', md: '3.75rem' } }}>
+                <Typography variant="h2" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2rem', sm: '2.5rem', md: '3.75rem' } }}>
                     Наша История в Цифрах
                 </Typography>
-                <Typography variant="subtitle1" color="primary.light">
+                <Typography variant="subtitle1" color="primary.light" sx={{ fontSize: { xs: '0.9rem', md: '1rem' } }}>
                     Каждая секунда с тобой — это бесценный дар.
                 </Typography>
             </motion.div>
@@ -123,22 +123,22 @@ export default function CounterSlide({ onNext }: { onNext?: () => void }) {
                                     flexDirection: 'column',
                                     alignItems: 'center',
                                     textAlign: 'center',
-                                    borderRadius: 8, overflow: 'hidden', bgcolor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)',
-                                    p: { xs: 4, md: 8 }
+                                    borderRadius: { xs: 4, md: 8 }, overflow: 'hidden', bgcolor: 'rgba(255,255,255,0.95)', backdropFilter: 'blur(10px)',
+                                    p: { xs: 3, sm: 4, md: 8 }
                                 }}
                             >
-                                <Typography variant="overline" color="primary.light" sx={{ letterSpacing: 2, fontWeight: 'bold' }}>
+                                <Typography variant="overline" color="primary.light" sx={{ letterSpacing: { xs: 1, md: 2 }, fontWeight: 'bold' }}>
                                     {currentEvent.date.toLocaleDateString('ru-RU', { day: 'numeric', month: 'long', year: 'numeric' })}
                                 </Typography>
-                                <Typography variant="h3" color="primary.dark" gutterBottom sx={{ mt: 1, lineHeight: 1.2, fontSize: { xs: '2rem', md: '3rem' } }}>
+                                <Typography variant="h3" color="primary.dark" gutterBottom sx={{ mt: 1, lineHeight: 1.2, fontSize: { xs: '1.5rem', sm: '2rem', md: '3rem' } }}>
                                     {currentEvent.title}
                                 </Typography>
-                                <Typography variant="body1" color="text.secondary" paragraph sx={{ fontSize: { xs: '1rem', md: '1.2rem' }, mb: 4, maxWidth: 600 }}>
+                                <Typography variant="body1" color="text.secondary" paragraph sx={{ fontSize: { xs: '0.85rem', sm: '1rem', md: '1.2rem' }, mb: { xs: 2, md: 4 }, maxWidth: 600 }}>
                                     {currentEvent.desc}
                                 </Typography>
 
                                 {/* Live Counter */}
-                                <Box display="flex" gap={2} mt={2} justifyContent="center" width="100%">
+                                <Box display="flex" gap={{ xs: 1, sm: 2 }} mt={{ xs: 1, md: 2 }} justifyContent="center" width="100%">
                                     {[
                                         { value: elapsed.days, label: "Дней" },
                                         { value: elapsed.hours, label: "Часов" },
@@ -146,10 +146,10 @@ export default function CounterSlide({ onNext }: { onNext?: () => void }) {
                                         { value: elapsed.seconds, label: "Секунд" }
                                     ].map((unit, i) => (
                                         <Box key={i} display="flex" flexDirection="column" alignItems="center" flex={1}>
-                                            <Typography variant="h4" color="primary.main" fontWeight="bold" sx={{ fontFamily: 'var(--font-montserrat)', fontSize: { xs: '1.8rem', md: '3rem' } }}>
+                                            <Typography variant="h4" color="primary.main" fontWeight="bold" sx={{ fontFamily: 'var(--font-montserrat)', fontSize: { xs: '1.5rem', sm: '1.8rem', md: '3rem' } }}>
                                                 {String(unit.value).padStart(2, '0')}
                                             </Typography>
-                                            <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: { xs: 0, md: 1 }, fontSize: { xs: '0.7rem', md: '0.9rem' }, mt: 1 }}>
+                                            <Typography variant="caption" color="text.secondary" sx={{ textTransform: 'uppercase', letterSpacing: { xs: 0, md: 1 }, fontSize: { xs: '0.6rem', sm: '0.7rem', md: '0.9rem' }, mt: { xs: 0.5, md: 1 } }}>
                                                 {unit.label}
                                             </Typography>
                                         </Box>
