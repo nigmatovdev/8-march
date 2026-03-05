@@ -48,8 +48,10 @@ function Card({
         <motion.div
             style={{
                 position: "absolute",
-                width: 300,
-                height: 420,
+                width: '80vw',
+                maxWidth: 300,
+                height: '60vh',
+                maxHeight: 420,
                 x,
                 y: yOffset,
                 rotate: isActive ? rotation : tilt,
@@ -110,7 +112,7 @@ export default function GuessMemorySlide({ onComplete, onNext }: { onComplete?: 
         <Box width="100%" height="100%" display="flex" flexDirection="column" alignItems="center" bgcolor="#fdf2f8" p={3} overflow="hidden">
 
             <Box textAlign="center" mt={{ xs: 8, md: 10 }} zIndex={10}>
-                <Typography variant="h2" color="primary.main" gutterBottom>
+                <Typography variant="h2" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2.5rem', md: '3.75rem' } }}>
                     Наши Воспоминания
                 </Typography>
                 <Typography variant="subtitle1" color="primary.light" sx={{ letterSpacing: 1 }}>

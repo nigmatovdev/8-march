@@ -43,7 +43,7 @@ export default function HiddenNotesSlide({ onComplete, onNext }: { onComplete?: 
                 animate={{ opacity: 1, y: 0 }}
                 style={{ textAlign: 'center', paddingTop: '4rem', zIndex: 10, position: 'relative', pointerEvents: 'none' }}
             >
-                <Typography variant="h2" color="primary.main" gutterBottom sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2 }}>
+                <Typography variant="h2" color="primary.main" gutterBottom sx={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 2, fontSize: { xs: '2.5rem', md: '3.75rem' } }}>
                     <Search sx={{ color: 'primary.light', fontSize: 40 }} />
                     Поиск Сокровищ
                 </Typography>

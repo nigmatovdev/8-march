@@ -66,7 +66,7 @@ export default function MapSlide({ onNext }: { onNext?: () => void }) {
                 animate={{ opacity: 1, y: 0 }}
                 style={{ textAlign: 'center', paddingTop: '4rem', zIndex: 10, position: 'relative', pointerEvents: 'none' }}
             >
-                <Typography variant="h2" color="primary.main" gutterBottom>
+                <Typography variant="h2" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2.5rem', md: '3.75rem' } }}>
                     Наши Особенные Места
                 </Typography>
                 <Typography variant="subtitle1" color="primary.light" sx={{ letterSpacing: 1 }}>
@@ -172,7 +172,7 @@ export default function MapSlide({ onNext }: { onNext?: () => void }) {
                                         <Room sx={{ fontSize: 32 }} />
                                     </Box>
 
-                                    <Typography variant="h3" color="text.primary" gutterBottom>
+                                    <Typography variant="h3" color="text.primary" gutterBottom sx={{ fontSize: { xs: '1.8rem', md: '3rem' } }}>
                                         {activeLocation.title}
                                     </Typography>
                                     <Typography variant="body1" color="text.secondary" paragraph sx={{ lineHeight: 1.6 }}>

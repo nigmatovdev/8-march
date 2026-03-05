@@ -106,8 +106,8 @@ export default function CatchHeartSlide({ onComplete, onNext }: { onComplete?: (
             sx={{ userSelect: 'none' }}
         >
             {/* HUD */}
-            <Box position="absolute" top={40} left={0} right={0} zIndex={20} display="flex" flexDirection="column" alignItems="center">
-                <Typography variant="h2" color="primary.main" sx={{ mb: 2, textShadow: '0 2px 10px rgba(255,255,255,0.8)' }}>
+            <Box position="absolute" top={40} left={0} right={0} zIndex={20} display="flex" flexDirection="column" alignItems="center" px={2}>
+                <Typography variant="h2" color="primary.main" textAlign="center" sx={{ mb: 2, textShadow: '0 2px 10px rgba(255,255,255,0.8)', fontSize: { xs: '2.5rem', md: '3.75rem' } }}>
                     Поймай Мое Сердце
                 </Typography>
 
@@ -174,7 +174,7 @@ export default function CatchHeartSlide({ onComplete, onNext }: { onComplete?: (
                             </Paper>
                         </motion.div>
 
-                        <Typography variant="h2" color="primary.main" textAlign="center" gutterBottom>
+                        <Typography variant="h2" color="primary.main" textAlign="center" gutterBottom sx={{ fontSize: { xs: '2.5rem', md: '3.75rem' }, px: 2 }}>
                             Ты поймала мое сердце ❤️
                         </Typography>
 
