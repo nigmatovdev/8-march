@@ -163,7 +163,7 @@ export default function HiddenNotesSlide({ onComplete, onNext }: { onComplete?: 
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         animate={{ opacity: 1, y: 0 }}
-                        style={{ position: 'absolute', bottom: '4rem', left: 0, right: 0, display: 'flex', justifyContent: 'center', pointerEvents: 'none' }}
+                        style={{ position: 'absolute', bottom: '4rem', left: 0, right: 0, display: 'flex', justifyContent: 'center' }}
                     >
                         <Button variant="contained" color="primary" onClick={onNext} sx={{ borderRadius: 8, px: 6, py: 1.5, fontSize: '1.2rem', boxShadow: '0 8px 20px rgba(216, 27, 96, 0.4)' }}>
                             Дальше

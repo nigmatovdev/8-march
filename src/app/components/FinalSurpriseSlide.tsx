@@ -16,9 +16,10 @@ export default function FinalSurpriseSlide() {
         setWindowSize({ width: window.innerWidth, height: window.innerHeight });
     }, []);
 
-    const handleNoHover = () => {
-        const newX = (Math.random() - 0.5) * 300; // -150 to 150
-        const newY = (Math.random() - 0.5) * 300;
+    const handleNoHover = (e?: any) => {
+        if (e && e.preventDefault) e.preventDefault();
+        const newX = (Math.random() - 0.5) * 250;
+        const newY = (Math.random() - 0.5) * 250;
         setNoButtonPos({ x: newX, y: newY });
     };
 
@@ -90,24 +91,24 @@ export default function FinalSurpriseSlide() {
                         transition={{ duration: 1, delay: 0.5 }}
                         display="flex" flexDirection="column" alignItems="center" textAlign="center" zIndex={20} maxWidth={700}
                     >
-                        <Paper elevation={24} sx={{ p: { xs: 4, md: 8 }, borderRadius: 8, bgcolor: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', border: '1px solid white' }}>
-                            <Typography variant="h1" color="primary.main" gutterBottom sx={{ fontSize: { xs: '3rem', md: '5rem' }, lineHeight: 1.1 }}>
+                        <Paper elevation={24} sx={{ p: { xs: 3, md: 8 }, borderRadius: 8, bgcolor: 'rgba(255,255,255,0.7)', backdropFilter: 'blur(12px)', border: '1px solid white', maxHeight: '90vh', overflowY: 'auto', width: '100%', scrollbarWidth: 'none' }}>
+                            <Typography variant="h1" color="primary.main" gutterBottom sx={{ fontSize: { xs: '2.5rem', md: '5rem' }, lineHeight: 1.1 }}>
                                 С 8 Марта <br /><span style={{ fontStyle: 'italic', fontWeight: 600 }}>Нафиса 🌸</span>
                             </Typography>
 
-                            <Typography variant="h6" color="text.secondary" sx={{ mt: 3, mb: 1, fontFamily: 'var(--font-montserrat)', fontWeight: 400, lineHeight: 1.6 }}>
+                            <Typography variant="h6" color="text.secondary" sx={{ mt: 2, mb: 1, fontFamily: 'var(--font-montserrat)', fontWeight: 400, fontSize: { xs: '1rem', md: '1.25rem' }, lineHeight: 1.5 }}>
                                 Ты самая удивительная девушка в моей жизни.<br />
                                 Спасибо тебе за каждый момент, каждую улыбку и каждое воспоминание.<br />
                                 Я не могу дождаться нашего совместного будущего.
                             </Typography>
 
-                            <Typography variant="h4" color="primary.light" sx={{ mt: 2, mb: 4, fontWeight: 700, fontStyle: 'italic' }}>
+                            <Typography variant="h4" color="primary.light" sx={{ mt: 2, mb: 3, fontWeight: 700, fontStyle: 'italic', fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
                                 Я люблю тебя ❤️
                             </Typography>
 
-                            <Box width="100%" height={1} sx={{ background: 'linear-gradient(90deg, transparent, #f48fb1, transparent)', my: 4 }} />
+                            <Box width="100%" height={1} sx={{ background: 'linear-gradient(90deg, transparent, #f48fb1, transparent)', my: 2 }} />
 
-                            <Typography variant="h4" color="text.primary" sx={{ mb: 4 }}>
+                            <Typography variant="h4" color="text.primary" sx={{ mb: 3, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
                                 Ты останешься со мной навсегда?
                             </Typography>
 
@@ -128,7 +129,8 @@ export default function FinalSurpriseSlide() {
                                     transition={{ type: "spring", stiffness: 200, damping: 10 }}
                                     onMouseEnter={handleNoHover}
                                     onClick={handleNoHover}
-                                    style={{ position: 'absolute', right: 0, zIndex: 30, marginLeft: noButtonPos.x === 0 ? '60%' : 0 }}
+                                    onTouchStart={handleNoHover}
+                                    style={{ position: 'absolute', right: '10%', zIndex: 30 }}
                                 >
                                     <Button
                                         variant="contained"

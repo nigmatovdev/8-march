@@ -52,42 +52,8 @@ export default function Home() {
   }
 
   useEffect(() => {
-    const handleWheel = (e: WheelEvent) => {
-      if (isScrolling.current) return
-      isScrolling.current = true
-      setTimeout(() => { isScrolling.current = false }, 1000)
-
-      if (e.deltaY > 15) goToNext()
-      else if (e.deltaY < -15) goToPrev()
-    }
-
-    const handleTouchStart = (e: TouchEvent) => {
-      touchStartY.current = e.touches[0].clientY
-    }
-
-    const handleTouchEnd = (e: TouchEvent) => {
-      if (isScrolling.current) return
-      const touchEndY = e.changedTouches[0].clientY
-      const change = touchStartY.current - touchEndY
-
-      if (Math.abs(change) > 40) {
-        isScrolling.current = true
-        setTimeout(() => { isScrolling.current = false }, 1000)
-
-        if (change > 0) goToNext()
-        else goToPrev()
-      }
-    }
-
-    window.addEventListener("wheel", handleWheel, { passive: false })
-    window.addEventListener("touchstart", handleTouchStart, { passive: true })
-    window.addEventListener("touchend", handleTouchEnd, { passive: true })
-
-    return () => {
-      window.removeEventListener("wheel", handleWheel)
-      window.removeEventListener("touchstart", handleTouchStart)
-      window.removeEventListener("touchend", handleTouchEnd)
-    }
+    // Scrolling and swiping navigation disabled as requested
+    // Navigation is now exclusively through buttons
   }, [currentSlide, hasUnlocked])
 
   const renderSlide = () => {
