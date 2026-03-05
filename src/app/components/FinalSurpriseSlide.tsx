@@ -106,7 +106,7 @@ export default function FinalSurpriseSlide() {
                                 Я люблю тебя ❤️
                             </Typography>
 
-                            <Box width="100%" height={1} sx={{ background: 'linear-gradient(90deg, transparent, #f48fb1, transparent)', my: 2 }} />
+                            {/* <Box width="100%" height={1} sx={{ background: 'linear-gradient(90deg, transparent, #f48fb1, transparent)', my: 2 }} /> */}
 
                             <Typography variant="h4" color="text.primary" sx={{ mb: 3, fontSize: { xs: '1.5rem', md: '2.125rem' } }}>
                                 Ты останешься со мной навсегда?
